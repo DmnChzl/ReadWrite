@@ -1,13 +1,23 @@
 <script setup>
 import { IconClose, IconMoon, IconNoteStackAdd, IconSearch, IconSun } from '@/components/icons';
 import { COLOR, ITEM_KEY } from '@/constants';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import RoundedButton from './RoundedButton.vue';
 
 const emit = defineEmits(['search']);
 
 const textField = ref('');
 const theme = ref(COLOR.LIGHT);
+
+onMounted(() => {
+  const item = sessionStorage.getItem(ITEM_KEY);
+
+  if (item) {
+    const { theme: themeValue = COLOR.LIGHT } = JSON.parse(item);
+    if (themeValue === COLOR.DARK) document.documentElement.classList.add('dark');
+    theme.value = themeValue;
+  }
+});
 
 const resetTextField = () => {
   textField.value = '';
