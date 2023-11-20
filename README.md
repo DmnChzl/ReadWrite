@@ -22,7 +22,7 @@ When editing an earlier note, later notes are deleted; or when adding a new vers
 Repository:
 
 ```
-git clone -b develop https://github.com/DmnChzl/ReadWrite.git
+git clone https://github.com/DmnChzl/ReadWrite.git
 ```
 
 Install:
@@ -48,10 +48,10 @@ Test:
 ```
 pnpm run test:unit
 
-Test Files  4 passed (4)
-     Tests  7 passed (7)
-  Start at  08:48:35
-  Duration  3.49s (transform 385ms, setup 4.71s, collect 2.44s, tests 205ms, environment 4.22s, prepare 602ms)
+Test Files  5 passed (5)
+     Tests  10 passed (10)
+  Start at  08:43:38
+  Duration  4.96s (transform 461ms, setup 4.23s, collect 2.70s, tests 478ms, environment 6.02s, prepare 745ms)
 ```
 
 Build:

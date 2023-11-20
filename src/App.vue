@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import * as NoteService from '@/services/noteService';
 import { useCollectionStore } from './stores/collection';
+import ErrorBoundary from './components/ErrorBoundary.vue';
 
 const { setNotes } = useCollectionStore();
 
@@ -13,5 +14,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <RouterView />
+  <ErrorBoundary :stopPropagation="true">
+    <RouterView />
+  </ErrorBoundary>
 </template>

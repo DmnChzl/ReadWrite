@@ -1,4 +1,5 @@
 <script setup>
+import ColorPicker from '@/components/ColorPicker.vue';
 import FloatingActionButton from '@/components/FloatingActionButton.vue';
 import RoundedButton from '@/components/RoundedButton.vue';
 import StyledDiv from '@/components/StyledDiv.vue';
@@ -46,10 +47,9 @@ const longTextHasChanged = useComputed(() => {
   return longText() !== defaultNote.currentVersion.longText;
 });
 
-let bgColor = defaultNote.bgColor;
-const setBgColor = newBgColor => (bgColor = newBgColor);
-const isDarkBg = useComputed(() => bgColor === COLOR.DARK);
-const isLightBg = useComputed(() => bgColor === COLOR.LIGHT);
+const [bgColor, setBgColor] = useSignal(defaultNote.bgColor);
+const isDarkBg = useComputed(() => bgColor() === COLOR.DARK);
+const isLightBg = useComputed(() => bgColor() === COLOR.LIGHT);
 
 const [colorPickerVisibility, setColorPickerVisibility] = useSignal(false);
 // const colorPickerVisibilityOn = () => setColorPickerVisibility(true);
@@ -171,9 +171,9 @@ const deleteNote = async () => {
 </script>
 
 <template>
-  <StyledDiv className="relative h-screen w-full space-y-4 p-4 flex flex-col" :bgColor="bgColor">
+  <StyledDiv className="relative h-screen w-full space-y-4 p-4 flex flex-col" :bgColor="bgColor()">
     <div class="grid grid-cols-4">
-      <RoundedButton className="mr-auto" @click="goBack" :bgColor="bgColor" label="Go Back">
+      <RoundedButton className="mr-auto" @click="goBack" :bgColor="bgColor()" label="Go Back">
         <IconArrowBack class="h-6 w-6" />
       </RoundedButton>
 
@@ -181,7 +181,7 @@ const deleteNote = async () => {
         <RoundedButton
           className="disabled:invisible"
           @click="() => updateNoteVersion(versionIndex() - 1)"
-          :bgColor="bgColor"
+          :bgColor="bgColor()"
           :disabled="versionIndex() === 0"
           label="Previous Version">
           <IconChevronLeft class="h-6 w-6" />
@@ -197,7 +197,7 @@ const deleteNote = async () => {
         <RoundedButton
           className="disabled:invisible"
           @click="() => updateNoteVersion(versionIndex() + 1)"
-          :bgColor="bgColor"
+          :bgColor="bgColor()"
           :disabled="versionIndex() === allVersions().length - 1"
           label="Next Version">
           <IconChevronRight class="h-6 w-6" />
@@ -207,35 +207,18 @@ const deleteNote = async () => {
       <div class="ml-auto flex space-x-2">
         <RoundedButton
           @click="() => setColorPickerVisibility(!colorPickerVisibility())"
-          :bgColor="bgColor"
+          :bgColor="bgColor()"
           label="Toggle Color Picker">
           <IconColors class="h-6 w-6" />
         </RoundedButton>
 
-        <RoundedButton @click="deleteNote" :bgColor="bgColor" label="Delete Note">
+        <RoundedButton @click="deleteNote" :bgColor="bgColor()" label="Delete Note">
           <IconTrash class="h-6 w-6" />
         </RoundedButton>
       </div>
     </div>
 
-    <ul
-      v-if="colorPickerVisibility()"
-      class="scrollbar-none z-10 ml-auto flex max-w-full items-center space-x-2 overflow-auto rounded-full bg-white p-2 shadow">
-      <li class="flex h-6 w-6" v-for="[key, value] in Object.entries(COLOR)" :key="value">
-        <button
-          class="my-auto h-6 w-6 rounded-full border border-black/10 hover:border-black/25"
-          :class="[
-            {
-              'bg-white': value === COLOR.LIGHT,
-              'bg-neutral-900': value === COLOR.DARK
-            },
-            value !== COLOR.LIGHT && value !== COLOR.DARK && `bg-${value}-300`
-          ]"
-          type="button"
-          @click="() => updateNoteBgColor(value)"
-          :aria-label="key" />
-      </li>
-    </ul>
+    <ColorPicker v-if="colorPickerVisibility()" className="ml-auto" @pick="color => updateNoteBgColor(color)" />
 
     <input
       class="mx-4 h-[32px] bg-transparent text-[20px] outline-none"
