@@ -46,10 +46,9 @@ const longTextHasChanged = useComputed(() => {
   return longText() !== defaultNote.currentVersion.longText;
 });
 
-let bgColor = defaultNote.bgColor;
-const setBgColor = newBgColor => (bgColor = newBgColor);
-const isDarkBg = useComputed(() => bgColor === COLOR.DARK);
-const isLightBg = useComputed(() => bgColor === COLOR.LIGHT);
+const [bgColor, setBgColor] = useSignal(defaultNote.bgColor);
+const isDarkBg = useComputed(() => bgColor() === COLOR.DARK);
+const isLightBg = useComputed(() => bgColor() === COLOR.LIGHT);
 
 const [colorPickerVisibility, setColorPickerVisibility] = useSignal(false);
 // const colorPickerVisibilityOn = () => setColorPickerVisibility(true);
@@ -171,9 +170,9 @@ const deleteNote = async () => {
 </script>
 
 <template>
-  <StyledDiv className="relative h-screen w-full space-y-4 p-4 flex flex-col" :bgColor="bgColor">
+  <StyledDiv className="relative h-screen w-full space-y-4 p-4 flex flex-col" :bgColor="bgColor()">
     <div class="grid grid-cols-4">
-      <RoundedButton className="mr-auto" @click="goBack" :bgColor="bgColor" label="Go Back">
+      <RoundedButton className="mr-auto" @click="goBack" :bgColor="bgColor()" label="Go Back">
         <IconArrowBack class="h-6 w-6" />
       </RoundedButton>
 
@@ -181,7 +180,7 @@ const deleteNote = async () => {
         <RoundedButton
           className="disabled:invisible"
           @click="() => updateNoteVersion(versionIndex() - 1)"
-          :bgColor="bgColor"
+          :bgColor="bgColor()"
           :disabled="versionIndex() === 0"
           label="Previous Version">
           <IconChevronLeft class="h-6 w-6" />
@@ -197,7 +196,7 @@ const deleteNote = async () => {
         <RoundedButton
           className="disabled:invisible"
           @click="() => updateNoteVersion(versionIndex() + 1)"
-          :bgColor="bgColor"
+          :bgColor="bgColor()"
           :disabled="versionIndex() === allVersions().length - 1"
           label="Next Version">
           <IconChevronRight class="h-6 w-6" />
@@ -207,12 +206,12 @@ const deleteNote = async () => {
       <div class="ml-auto flex space-x-2">
         <RoundedButton
           @click="() => setColorPickerVisibility(!colorPickerVisibility())"
-          :bgColor="bgColor"
+          :bgColor="bgColor()"
           label="Toggle Color Picker">
           <IconColors class="h-6 w-6" />
         </RoundedButton>
 
-        <RoundedButton @click="deleteNote" :bgColor="bgColor" label="Delete Note">
+        <RoundedButton @click="deleteNote" :bgColor="bgColor()" label="Delete Note">
           <IconTrash class="h-6 w-6" />
         </RoundedButton>
       </div>
