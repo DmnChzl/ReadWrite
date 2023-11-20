@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  ::selection {
+    background-color: #00dc82;
+  }
+}
+
+@layer components {
+  .text-field-base {
+    @apply w-full rounded-full border py-2 pl-10 pr-10 outline-none transition-colors;
+  }
+
+  .text-field-light {
+    @apply border-neutral-200 bg-neutral-100 text-neutral-700 placeholder:text-neutral-400 focus:bg-transparent;
+  }
+
+  .text-field-dark {
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:placeholder:text-neutral-500 dark:focus:bg-transparent;
+  }
+
+  .card-view-base {
+    @apply z-10 flex flex-col space-y-2 rounded-lg border border-dashed p-4 transition-colors;
+  }
+
+  .card-view-dark {
+    @apply border-neutral-200 bg-neutral-100 text-neutral-900 hover:border-neutral-400;
+  }
+
+  .card-view-dark {
+    @apply dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:border-neutral-500;
+  }
+}
+
+@layer utilities {
+  .font-dm-sans {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .font-jetbrains-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
