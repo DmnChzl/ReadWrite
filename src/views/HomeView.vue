@@ -53,7 +53,7 @@ const allNotes = useComputed(() => {
             <RouterLink v-else :to="'/edit/' + note.id">
               <ListItem
                 :bgColor="note.bgColor"
-                :title="note.currentVersion.id"
+                :title="note.currentVersion.shortText"
                 :subTitle="note.currentVersion.longText" />
             </RouterLink>
           </li>
